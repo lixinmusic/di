@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+ <style type="text/css">
+
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font: 12px/180% Arial, Helvetica, sans-serif;
+    list-style-type: none;
+}
+
+#allmap {
+    width: 100%;
+    height: 100%;
+
+}
+
+#result {
+    width: 22.2%;
+    font-size: 12px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border: 1px solid #000;
+    border-bottom: none;
+    border-top: none;
+    border-right: none;
+    overflow: hidden;
+
+}
+
+.tu {
+    width: 77.6%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#result .he {
+    position: absolute;
+    left: 50px;
+    top: 15px;
+}
+
+.demo {
+    width: 600px;
+}
+
+/* selectbox */
+.selectbox {
+    width: 145px;
+    margin: 5px 0 0 5px;
+    float: left;
+    display: inline;
+    position: relative;
+}
+
+.cartes {
+    background-color: #fff;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eeeeee), color-stop(0.5, white));
+    background-image: -webkit-linear-gradient(center bottom, #eeeeee 0%, white 50%);
+    background-image: -moz-linear-gradient(center bottom, #eeeeee 0%, white 50%);
+    background-image: -o-linear-gradient(bottom, #eeeeee 0%, #ffffff 50%);
+    background-image: -ms-linear-gradient(top, #eeeeee 0%, #ffffff 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#eeeeee', endColorstr = '#ffffff', GradientType = 0);
+    background-image: linear-gradient(top, #eeeeee 0%, #ffffff 50%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #aaa;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 0 0 7px;
+    color: #444;
+    cursor: pointer;
+}
+
+.listTxt {
+    border: none;
+    background: none;
+    padding: 0px;
+    font-size: 12px;
+    padding: 4px 0;
+    width: 88%;
+    height: 26px;
+    line-height: 26px;
+    cursor: pointer;
+}
+
+.listBtn {
+    border-left: 1px solid #aaa;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    height: 100%;
+    width: 18px;
+    -webkit-border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background: #ccc;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ccc), color-stop(0.6, #eee));
+    background-image: -webkit-linear-gradient(center bottom, #ccc 0%, #eee 60%);
+    background-image: -moz-linear-gradient(center bottom, #ccc 0%, #eee 60%);
+    background-image: -o-linear-gradient(bottom, #ccc 0%, #eee 60%);
+    background-image: -ms-linear-gradient(top, #cccccc 0%, #eeeeee 60%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#cccccc', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, #cccccc 0%, #eeeeee 60%);
+}
+
+.listBtn b {
+    background: url('http://www.jsfoot.com/jquery/demo/2012-09-16/images/selectbg.png') no-repeat 0 -1px;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.lists {
+    background: #fff;
+    border: 1px solid #aaa;
+    border-top: 0;
+    position: absolute;
+    top: 24px;
+    left: 0;
+    display: none;
+    width: 142.5px;
+    -webkit-box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
+    -o-box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
+}
+
+.lists .list {
+    margin: 4px 0px 4px 0;
+    padding: 0 0 0 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+.lists li {
+    padding: 6px 0px 20px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    color: #5e5e5e;
+    font-size: 12px;
+}
+
+.lists li.cgray {
+    background: #3875D7;
+    color: #fff;
+}
+
+.hover .lists {
+    display: block;
+}
+
+.hover .cartes {
+    border: 1px solid #aaa;
+    -webkit-box-shadow: 0 1px 0 #fff inset;
+    -moz-box-shadow: 0 1px 0 #fff inset;
+    -o-box-shadow: 0 1px 0 #fff inset;
+    box-shadow: 0 1px 0 #fff inset;
+    background-color: #eee;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, white), color-stop(0.5, #eeeeee));
+    background-image: -webkit-linear-gradient(center bottom, white 0%, #eeeeee 50%);
+    background-image: -moz-linear-gradient(center bottom, white 0%, #eeeeee 50%);
+    background-image: -o-linear-gradient(bottom, white 0%, #eeeeee 50%);
+    background-image: -ms-linear-gradient(top, #ffffff 0%,#eeeeee 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 );
+    background-image: linear-gradient(top, #ffffff 0%,#eeeeee 50%);
+    -webkit-border-bottom-left-radius : 0;
+    -webkit-border-bottom-right-radius: 0;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-bottomright: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.hover .listBtn {
+    background: transparent;
+    border-left: none;
+    filter: none;
+}
+
+.hover .listBtn b {
+    background-position: -18px 1px;
+}
+
+input {
+    border: none;
+    background: none;
+    outline: medium;
+
+}
+
+#myst {
+    height: 94%;
+    width: 100%;
+    border: 0.1px solid #ccc;
+}
+</style>
+        <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+</script>
+
+<link href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css" rel="stylesheet">
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    
+    $("#select01").jQSelect({});
+    $("#select02").jQSelect({});
+
+});
+</script>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=G3GKeZsowwfaOlY71VAd0TfR">
+</script>
+        <!--加载鼠标绘制工具-->
+        <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js">
+</script>
+        <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css"/>
+        <!--加载检索信息窗口-->
+        <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js">
+</script>
+        <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css"/>
+
+        <title>地图2</title>
+</head>
+    <body>
+        <!--left的box-->
+        <div id="result">
+            <div class="demo">
+                <div id="select01" class="selectbox">
+                    <div class="cartes">
+                        <input type="text" value="危险化学品工业风险" class="listTxt"/>
+                        <!--<div class="listBtn"></div>-->
+                        <input type="hidden" value="" class="listVal"/>
+                    </div>
+                    <div class="lists">
+                        <ul class="list">
+                            <li id="v1">危险化学品生产企业</li>
+                            <li id="v2">危化品储存经营企业</li>
+                            <li id="v3">危化品使用企业</li>
+                            <li id="v4">港口涉危企业</li>
+                            <li id="v5">涉氨企业</li>
+                            <li id="v6">涉氯企业</li>
+                            <li id="v7">烟花爆竹仓库</li>
+                            <li id="v8">加油站</li>
+                            <li id="v9">非煤矿山油库</li>
+                            <li id="v10">燃气站场</li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="select02" class="selectbox">
+                    <div class="cartes">
+                        <input type="text" value="危险品运输风险" class="listTxt"/>
+                        <!--<div class="listBtn"></div>-->
+                        <input type="hidden" value="" class="listVal"/>
+                    </div>
+                    <div class="lists">
+                        <ul class="list">
+                            <li id="s1">原油管道</li>
+                            <li id="s2">天然气管道</li>
+                            <li id="s3">危化管道</li>
+                            <li id="s4">危化品货运运输</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+           <!-- <iframe src="text.html" marginwidth="50" id="myst">
+                <p>您的浏览器不支持 iframes 。</p>
+            </iframe>-->
+           <div id="myst"></div>
+        </div>
+        <div class="tu">
+
+            <!-- 设置地图的一个盒子 -->
+            <div id="allmap" style="overflow:hidden;zoom:1;position:relative;">
+                <div id="map" style="height:100%;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;"></div>
+                
+            </div> 
+
+<!-- 选择地区的部分 -->
+
+        </div>
+        <script type="text/javascript">
+
+// 百度地图API功能
+var map = new BMap.Map('allmap');
+var poi = new BMap.Point(117.2523808,39.1038561);
+map.centerAndZoom(poi, 10);
+
+map.addControl(new BMap.MapTypeControl());
+//添加地图类型控件
+map.enableKeyboard();
+/* 键盘方向的移动*/
+map.enableInertialDragging()
+/*惯性拖拽*/
+map.enablePinchToZoom()
+/*双指缩放功能*/
+map.enableAutoResize()
+/*自动适应容器尺寸变化*/
+
+map.addEventListener("click", function(e) {
+    console.log(e.point.lng + ", " + e.point.lat);
+});
+map.enableScrollWheelZoom();
+var overlays = [];
+var overlaycomplete = function(e) {
+    overlays.push(e.overlay);
+}
+;
+var styleOptions = {
+    strokeColor: "red",
+    //边线颜色。
+    fillColor: "red",
+    //填充颜色。当参数为空时，圆形将没有填充效果。
+    strokeWeight: 3,
+    //边线的宽度，以像素为单位。
+    strokeOpacity: 0.8,
+    //边线透明度，取值范围0 - 1。
+    fillOpacity: 0.7,
+    //填充的透明度，取值范围0 - 1。
+    strokeStyle: 'solid'//边线的样式，solid或dashed。
+}
+//实例化鼠标绘制工具
+var drawingManager = new BMapLib.DrawingManager(map,{
+    isOpen: false,
+    //是否开启绘制模式
+    enableDrawingTool: true,
+    //是否显示工具栏
+    drawingToolOptions: {
+        anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+        //位置
+        offset: new BMap.Size(5,5),
+        //偏离值
+        scale: 0.8,
+        //工具栏缩放比例  BMAP_DRAWING_MARKER 画点  BMAP_DRAWING_CIRCLE   thread
+
+        drawingModes: [
+        BMAP_DRAWING_CIRCLE, 
+        BMAP_DRAWING_MARKER,
+        BMAP_DRAWING_POLYLINE,
+        BMAP_DRAWING_POLYGON 
+        ]
+    },
+    circleOptions: styleOptions,
+    //圆的样式
+    polylineOptions: styleOptions,
+    //线的样式
+    polygonOptions: styleOptions, //多边形的样式
+    rectangleOptions: styleOptions//矩形的样式
+});
+//添加鼠标绘制工具监听事件，用于获取绘制结果
+drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+function clearAll() {
+    for (var i = 0; i < overlays.length; i++) {
+        map.removeOverlay(overlays[i]);
+    }
+    overlays.length = 0
+}
+
+
+var count = 0;
+var timer;
+map.addEventListener("click", function(e) {
+    count++;
+    timer = window.setTimeout(function() {
+        if (count == 1) {
+            
+            $('.point-list ul').append('<li>' + e.point.lng + '|' + e.point.lat + '</li>')
+        }
+        
+        window.clearTimeout(timer);
+        count = 0;
+    }, 300)
+
+});
+/*控件放大缩小*/
+var opts = {
+    type: BMAP_NAVIGATION_CONTROL_LARGE
+}
+map.addControl(new BMap.NavigationControl(opts));
+
+
+
+
+/*搜索框*/
+
+
+/*加油站的标注*/
+var local = new BMap.LocalSearch(map,{
+    renderOptions: {
+        map: map,
+        panel: "myst"
+    }
+});
+local.search("加油站");
+
+/*左侧的input框*/
+(function($) {
+    $.fn.jQSelect = function(settings) {
+        
+        var $div = this;
+        var $cartes = $div.find(".cartes");
+        var $lists = $div.find(".lists");
+        
+        var listTxt = $cartes.find(".listTxt");
+        var listVal = $cartes.find(".listVal");
+        
+        var items = $lists.find("ul > li");
+        
+        $div.hover(function() {
+            $(this).addClass("hover");
+        }, function() {
+            $(this).removeClass("hover");
+        });
+        
+        //绑定点击事件
+        items.click(function() {
+            listVal.val($(this).attr("id"));
+            listTxt.val($(this).text());
+            $div.removeClass("hover");
+        }).mouseover(function() {
+            $(this).removeClass("cwhite");
+            $(this).addClass("cgray");
+        }).mouseout(function() {
+            $(this).removeClass("cgray");
+            $(this).addClass("cwhite");
+        });
+    
+    }
+    ;
+})(jQuery);
+
+
+
+</script>
+    </body>
+</html>
